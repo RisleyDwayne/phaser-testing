@@ -85,9 +85,32 @@
                 repeat: -1
             });
 
+            //create physics group for stars with repeat value of 11 for a total of 12 when iterating
+            stars = this.physics.add.group({
+                key: 'star',
+                repeat: 11,
+                setXY: { x: 12, y: 0, stepX: 70 }
+            });
+
+            //set bounce physics for each star
+            stars.children.iterate(function (child) {
+
+                child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+
+            });
+
             //creates collision listener between player and the 'platforms' physics group
             //can recieve a custom callback function if needed
             this.physics.add.collider(player, platforms);
+
+            //collider for stars&platforms
+            this.physics.add.collider(stars, platforms);
+
+            //checks for overlap between player and stars, calls collectStar()
+            this.physics.add.overlap(player, stars, collectStar, null, this);
+            function collectStar(player, star) {
+                star.disableBody(true, true);
+            }
 
             //built-in keyboard manager
             //populates the cursors object with four properties: 
