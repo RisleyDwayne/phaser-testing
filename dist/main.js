@@ -1,4 +1,4 @@
-
+var phaser = require("phaser");
 var config = {
     type: Phaser.AUTO,
     width: 800,
